@@ -4,7 +4,7 @@ import { fetchCircuitPath, DEFAULT_CIRCUIT } from './circuits'
 const API = import.meta.env?.VITE_API_URL || 'https://f1-app-production.up.railway.app'
 
 // 3 seconds per lap — feels like a proper replay
-const SECONDS_PER_LAP = 3
+const SECONDS_PER_LAP = 5
 
 const DRIVERS_2026 = [
   { code:'RUS', full_name:'George Russell',    team:'Mercedes',        team_color:'#27F4D2' },
