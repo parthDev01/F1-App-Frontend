@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 import { fetchCircuitPath, DEFAULT_CIRCUIT } from './circuits'
 
 const API = import.meta.env?.VITE_API_URL || 'https://f1-app-production.up.railway.app'
-const LAP_MS = 900
+const LAP_MS = 2000
 
 const DRIVERS_2026 = [
   { code:'RUS', full_name:'George Russell',    team:'Mercedes',        team_color:'#27F4D2' },
