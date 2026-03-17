@@ -4,31 +4,31 @@ import { fetchCircuitPath, DEFAULT_CIRCUIT } from './circuits'
 const API = import.meta.env?.VITE_API_URL || 'https://f1-app-production.up.railway.app'
 
 // 3 seconds per lap — feels like a proper replay
-const SECONDS_PER_LAP = 5
+const SECONDS_PER_LAP = 3
 
 const DRIVERS_2026 = [
-  { code:'RUS', full_name:'George Russell',    team:'Mercedes',        team_color:'#27F4D2' },
+  { code:'RUS', full_name:'George Russell',     team:'Mercedes',        team_color:'#27F4D2' },
   { code:'ANT', full_name:'Kimi Antonelli',     team:'Mercedes',        team_color:'#27F4D2' },
   { code:'HAM', full_name:'Lewis Hamilton',     team:'Ferrari',         team_color:'#E8002D' },
   { code:'LEC', full_name:'Charles Leclerc',    team:'Ferrari',         team_color:'#E8002D' },
   { code:'VER', full_name:'Max Verstappen',     team:'Red Bull Racing', team_color:'#3671C6' },
-  { code:'TSU', full_name:'Yuki Tsunoda',       team:'Red Bull Racing', team_color:'#3671C6' },
+  { code:'TSU', full_name:'Isack Hadjar',       team:'Red Bull Racing', team_color:'#3671C6' },
   { code:'NOR', full_name:'Lando Norris',       team:'McLaren',         team_color:'#FF8000' },
   { code:'PIA', full_name:'Oscar Piastri',      team:'McLaren',         team_color:'#FF8000' },
   { code:'ALO', full_name:'Fernando Alonso',    team:'Aston Martin',    team_color:'#358C75' },
   { code:'STR', full_name:'Lance Stroll',       team:'Aston Martin',    team_color:'#358C75' },
   { code:'GAS', full_name:'Pierre Gasly',       team:'Alpine',          team_color:'#0093CC' },
-  { code:'DOO', full_name:'Jack Doohan',        team:'Alpine',          team_color:'#0093CC' },
+  { code:'DOO', full_name:'Franco Colapinto',   team:'Alpine',          team_color:'#0093CC' },
   { code:'ALB', full_name:'Alexander Albon',    team:'Williams',        team_color:'#005AFF' },
   { code:'SAI', full_name:'Carlos Sainz',       team:'Williams',        team_color:'#005AFF' },
   { code:'OCO', full_name:'Esteban Ocon',       team:'Haas',            team_color:'#B6BABD' },
   { code:'BEA', full_name:'Oliver Bearman',     team:'Haas',            team_color:'#B6BABD' },
-  { code:'HAD', full_name:'Isack Hadjar',       team:'Racing Bulls',    team_color:'#5E8FAA' },
+  { code:'HAD', full_name:'Arvid Lindblad',     team:'Racing Bulls',    team_color:'#5E8FAA' },
   { code:'LAW', full_name:'Liam Lawson',        team:'Racing Bulls',    team_color:'#5E8FAA' },
   { code:'HUL', full_name:'Nico Hulkenberg',    team:'Audi',            team_color:'#C6C6C6' },
   { code:'BOR', full_name:'Gabriel Bortoleto',  team:'Audi',            team_color:'#C6C6C6' },
-  { code:'COL', full_name:'Franco Colapinto',   team:'GM Andretti',     team_color:'#E6003A' },
-  { code:'OWA', full_name:'Jak Crawford',       team:'GM Andretti',     team_color:'#E6003A' },
+  { code:'COL', full_name:'Sergio Perez',       team:'Cadillac',        team_color:'#636363' },
+  { code:'OWA', full_name:'Valteri Bottas',     team:'Cadillac',        team_color:'#636363' },
 ]
 const DRIVER_MAP = Object.fromEntries(DRIVERS_2026.map(d => [d.code, d]))
 
