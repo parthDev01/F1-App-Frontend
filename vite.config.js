@@ -6,6 +6,7 @@ export default defineConfig({
   build: {
     outDir: 'dist',
   },
+  // Only used in local dev — on Railway the env vars are set in the dashboard
   server: {
     proxy: {
       '/api': 'http://localhost:8000',
