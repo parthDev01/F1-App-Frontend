@@ -4,9 +4,9 @@ import { fetchCircuitPath, DEFAULT_CIRCUIT } from './circuits'
 const GAP_FRACTION = {
   VER:0.000, HAM:0.048, LEC:0.080, PER:0.140, SAI:0.179,
   RUS:0.217, NOR:0.261, PIA:0.312, ALO:0.361, STR:0.431,
-  ANT:0.028, GAS:0.195, TSU:0.342, ALB:0.388, OCO:0.415,
+  ANT:0.028, GAS:0.195, LIN:0.342, ALB:0.388, OCO:0.415,
   HUL:0.452, BEA:0.468, HAD:0.482, LAW:0.495, BOR:0.510,
-  DOO:0.522, COL:0.535, OWA:0.548,
+  BOT:0.522, COL:0.535,
 }
 
 export default function TrackMap({ drivers = [], selected, onSelectDriver, circuit = 'shanghai' }) {
