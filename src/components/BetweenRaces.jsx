@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { fetchCircuitPath, FALLBACK_CIRCUITS, DEFAULT_CIRCUIT } from './circuits'
+import { fetchCircuitPath, DEFAULT_CIRCUIT } from './circuits'
 import RaceReplay from './RaceReplay'
 
 const API = import.meta.env?.VITE_API_URL || 'https://f1-app-production.up.railway.app'
@@ -111,9 +111,10 @@ function TrackDetail({race, onClose}) {
   const [vBox, setVBox] = useState('0 0 500 500')
 
   useEffect(() => {
-    const fb = FALLBACK_CIRCUITS[race.circuit]
-    if (fb) { setSvgPath(fb.path); setVBox(fb.viewBox||'0 0 500 500'); return }
-    fetchCircuitPath(race.circuit).then(p => { setSvgPath(p || DEFAULT_CIRCUIT.path); setVBox('0 0 500 500') })
+    fetchCircuitPath(race.circuit).then(result => {
+      if (result) { setSvgPath(result.path); setVBox(result.viewBox) }
+      else        { setSvgPath(DEFAULT_CIRCUIT.path); setVBox(DEFAULT_CIRCUIT.viewBox) }
+    })
   }, [race.circuit])
 
   useState(() => {
