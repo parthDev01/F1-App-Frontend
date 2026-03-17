@@ -1,6 +1,7 @@
 /**
  * F1 2026 Circuit Configuration
  * SVG paths fetched at runtime from julesr0y/f1-circuits-svg via jsDelivr CDN.
+ * Uses the LONGEST path in each SVG = the full circuit outline.
  * Bahrain and Jeddah skipped — not on 2026 calendar.
  */
 
@@ -31,31 +32,52 @@ export const CIRCUIT_FILES = {
   yas_marina:    `${CDN}/yas-marina-2.svg`,
 }
 
-// Cache for fetched SVG paths
-const svgPathCache = {}
+// Per-circuit viewBox overrides — set after seeing the actual SVG dimensions
+// Default is 0 0 500 500. Override here if a circuit renders too small/large.
+const VIEWBOX_OVERRIDES = {}
 
+// In-memory cache
+const svgCache = {}   // { path, viewBox }
+
+/**
+ * Fetch circuit SVG and extract:
+ *   - The LONGEST path d= attribute (= full circuit outline, not a sector)
+ *   - The viewBox from the <svg> element
+ */
 export async function fetchCircuitPath(circuitKey) {
-  if (svgPathCache[circuitKey] !== undefined) return svgPathCache[circuitKey]
+  if (svgCache[circuitKey] !== undefined) return svgCache[circuitKey]
 
   const url = CIRCUIT_FILES[circuitKey]
-  if (!url) { svgPathCache[circuitKey] = null; return null }
+  if (!url) { svgCache[circuitKey] = null; return null }
 
   try {
-    const res  = await fetch(url)
-    if (!res.ok) { svgPathCache[circuitKey] = null; return null }
+    const res = await fetch(url)
+    if (!res.ok) { svgCache[circuitKey] = null; return null }
     const text = await res.text()
-    const match = text.match(/\sd="([^"]+)"/)
-    if (!match) { svgPathCache[circuitKey] = null; return null }
-    svgPathCache[circuitKey] = match[1]
-    return match[1]
+
+    // Extract viewBox
+    const vbMatch = text.match(/viewBox=["']([^"']+)["']/)
+    const viewBox = VIEWBOX_OVERRIDES[circuitKey] || (vbMatch ? vbMatch[1] : '0 0 500 500')
+
+    // Extract ALL path d= attributes and pick the longest one
+    // The longest path = full circuit outline (sectors are shorter sub-paths)
+    const pathRegex = /\sd="([^"]+)"/g
+    let match
+    let longestPath = ''
+    while ((match = pathRegex.exec(text)) !== null) {
+      if (match[1].length > longestPath.length) {
+        longestPath = match[1]
+      }
+    }
+
+    if (!longestPath) { svgCache[circuitKey] = null; return null }
+
+    svgCache[circuitKey] = { path: longestPath, viewBox }
+    return svgCache[circuitKey]
   } catch {
-    svgPathCache[circuitKey] = null
+    svgCache[circuitKey] = null
     return null
   }
-}
-
-export function getCachedPath(circuitKey) {
-  return svgPathCache[circuitKey] ?? null
 }
 
 export const FALLBACK_CIRCUITS = {}
